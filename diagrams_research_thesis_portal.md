@@ -1,7 +1,7 @@
 # DANH MỤC SƠ ĐỒ HỆ THỐNG: RESEARCH THESIS PORTAL
 *(Tài liệu phục vụ Báo cáo Đồ án / Khóa luận)*
 
-Dưới đây là tập hợp đầy đủ và chi tiết các sơ đồ (Mermaid) dành riêng cho hệ thống **Research Thesis Portal**. Các sơ đồ được thiết kế với độ chi tiết cao phục vụ cho báo cáo đồ án quy mô lớn.
+Dưới đây là tập hợp đầy đủ và chi tiết các sơ đồ (Mermaid) dành riêng cho hệ thống **Research Thesis Portal**. Các sơ đồ được thiết kế với độ chi tiết cao, giúp sinh viên, giảng viên và quản trị viên hiểu rõ quy trình hoạt động.
 
 ---
 
@@ -132,7 +132,7 @@ usecaseDiagram
 
 ---
 
-## 2. HỆ THỐNG SƠ ĐỒ HOẠT ĐỘNG (ACTIVITY DIAGRAM)
+## 2. HỆ THỐNG SƠ ĐỒ HOẠT ĐỘNG (STATE DIAGRAM)
 
 ### 2.1. Quy trình Đề xuất và Xét duyệt Đề tài
 
@@ -141,18 +141,18 @@ stateDiagram-v2
     [*] --> GV_NhapDeTai : Giảng viên tạo đề tài mới
     GV_NhapDeTai --> GV_Submit : Lưu và gửi duyệt
     GV_Submit --> Admin_Review : Hệ thống chuyển sang trạng thái "Chờ duyệt"
-    
+
     state Admin_Review {
         [*] --> KiemTraThongTin
         KiemTraThongTin --> TuChoi : Thiếu thông tin / Không phù hợp
         KiemTraThongTin --> YeuCauSua : Cần chỉnh sửa
         KiemTraThongTin --> PheDuyet : Đạt yêu cầu
     }
-    
+
     TuChoi --> [*] : Hủy đề tài
     YeuCauSua --> GV_NhapDeTai : Trả lại cho Giảng viên
     PheDuyet --> ChoDangKy : Cập nhật trạng thái "Sẵn sàng"
-    
+
     ChoDangKy --> MoDotDangKy : Admin mở đợt đăng ký
     MoDotDangKy --> [*]
 ```
@@ -165,24 +165,24 @@ stateDiagram-v2
     XemDanhSach --> ChonDeTai
     ChonDeTai --> SubmitDangKy : Nhấn nút Đăng ký
     SubmitDangKy --> HeThongCheck : Kiểm tra điều kiện (Tín chỉ, Số lượng)
-    
+
     state HeThongCheck {
         [*] --> KiemTraSL
         KiemTraSL --> LoiDieuKien : Đã đủ nhóm/Hết hạn/Chưa đủ TC
         KiemTraSL --> HopLe : Điều kiện thỏa mãn
     }
-    
+
     LoiDieuKien --> XemDanhSach : Báo lỗi, yêu cầu chọn lại
     HopLe --> ChoGVDuyet : Trạng thái "Chờ GV duyệt"
-    
+
     ChoGVDuyet --> GVDanhGia : Giảng viên nhận thông báo
-    
+
     state GVDanhGia {
         [*] --> XemThongTinSV
         XemThongTinSV --> GV_TuChoi
         XemThongTinSV --> GV_DongY
     }
-    
+
     GV_TuChoi --> XemDanhSach : Hệ thống thông báo SV bị từ chối
     GV_DongY --> ThucHienDeTai : Chốt danh sách nhóm
     ThucHienDeTai --> [*]
@@ -205,7 +205,7 @@ sequenceDiagram
     UI->>API: 2. POST /api/auth/login
     API->>DB: 3. Lấy thông tin User theo Username
     DB-->>API: 4. Trả về thông tin & Hash Password
-    
+
     alt Sai mật khẩu
         API-->>UI: 5a. Return 401 Unauthorized
         UI-->>User: 6a. Báo lỗi sai tài khoản/mật khẩu
@@ -237,9 +237,9 @@ sequenceDiagram
     DB-->>API: 7. Xác nhận thành công
     API-->>UI: 8. Return 201 Created (Kèm Dữ liệu Báo cáo)
     UI-->>SV: 9. Hiển thị thông báo "Nộp thành công"
-    
+
     API->>GV: 10. (Background Task) Gửi Notification/Email cho GVHD
-    
+
     GV->>UI: 11. Đăng nhập, mở mục "Chấm báo cáo"
     UI->>API: 12. GET /api/reports/{id}
     API->>DB: 13. Query thông tin báo cáo
@@ -275,7 +275,7 @@ graph TB
         Auth[JWT Authentication & Middleware]
         Controllers[Business Logic / Services]
         ORM[SQLAlchemy ORM]
-        
+
         Router --> Auth
         Auth --> Controllers
         Controllers --> ORM
@@ -288,11 +288,11 @@ graph TB
     Users -->|HTTPS / Trình duyệt| Frontend
     Services -->|HTTP/REST JSON| Router
     ORM -->|TCP (Port 5432)| PG
-    
+
     classDef frontend fill:#ddf3ff,stroke:#0075b0,stroke-width:2px;
     classDef backend fill:#e1ffe5,stroke:#008b1a,stroke-width:2px;
     classDef db fill:#ffe1e1,stroke:#b00000,stroke-width:2px;
-    
+
     class Frontend frontend;
     class Backend backend;
     class Database db;
@@ -312,7 +312,7 @@ erDiagram
         string password_hash
         string full_name
         string email
-        string role "ENUM: STUDENT, LECTURER, ADMIN"
+        string role
         boolean is_active
     }
 
@@ -327,7 +327,7 @@ erDiagram
         string name
         datetime start_date
         datetime end_date
-        string status "ENUM: OPEN, CLOSED"
+        string status
     }
 
     TOPICS {
@@ -337,7 +337,7 @@ erDiagram
         int lecturer_id FK
         int period_id FK
         int max_students
-        string status "ENUM: PENDING, APPROVED, REJECTED, ACTIVE"
+        string status
     }
 
     TOPIC_REGISTRATIONS {
@@ -345,7 +345,7 @@ erDiagram
         int topic_id FK
         int student_id FK
         datetime registered_at
-        string status "ENUM: PENDING, ACCEPTED, REJECTED"
+        string status
     }
 
     REPORTS {
@@ -370,16 +370,72 @@ erDiagram
         int id PK
         int council_id FK
         int lecturer_id FK
-        string role "ENUM: PRESIDENT, SECRETARY, MEMBER"
+        string role
     }
 
-    USERS }o--|| DEPARTMENTS : belongs_to
-    TOPICS }o--|| USERS : proposed_by
-    TOPICS }o--|| REGISTRATION_PERIODS : belongs_to
-    TOPIC_REGISTRATIONS }o--|| TOPICS : links_to
-    TOPIC_REGISTRATIONS }o--|| USERS : created_by_student
-    REPORTS }o--|| TOPICS : tracks_progress
-    REPORTS }o--|| USERS : submitted_by
-    COUNCIL_MEMBERS }o--|| COUNCILS : part_of
-    COUNCIL_MEMBERS }o--|| USERS : is_lecturer
+    USERS ||--o{ TOPICS : proposed_by
+    TOPICS ||--o{ TOPIC_REGISTRATIONS : has
+    TOPICS ||--o{ REPORTS : tracks
+    USERS ||--o{ TOPIC_REGISTRATIONS : creates
+    USERS ||--o{ REPORTS : submits
+    USERS ||--o{ COUNCIL_MEMBERS : is_lecturer
+    DEPARTMENTS ||--o{ USERS : contains
+    REGISTRATION_PERIODS ||--o{ TOPICS : contains
+    COUNCILS ||--o{ COUNCIL_MEMBERS : has_members
 ```
+
+---
+
+## 6. BẢNG TÓM TẮT CÁC ENDPOINT API
+
+| Phương thức | Endpoint | Mô tả | Quyền hạn |
+|---|---|---|---|
+| POST | `/api/auth/login` | Đăng nhập | Public |
+| POST | `/api/auth/refresh` | Làm mới JWT Token | User |
+| GET | `/api/topics` | Lấy danh sách đề tài | Student, Lecturer |
+| POST | `/api/topics` | Tạo đề tài mới | Lecturer |
+| PUT | `/api/topics/{id}` | Cập nhật đề tài | Lecturer |
+| DELETE | `/api/topics/{id}` | Xóa đề tài | Lecturer, Admin |
+| POST | `/api/registrations` | Đăng ký đề tài | Student |
+| GET | `/api/registrations/{id}` | Xem chi tiết đăng ký | Student, Lecturer |
+| PUT | `/api/registrations/{id}/approve` | Duyệt đăng ký | Lecturer |
+| PUT | `/api/registrations/{id}/reject` | Từ chối đăng ký | Lecturer |
+| POST | `/api/reports` | Nộp báo cáo | Student |
+| GET | `/api/reports/{id}` | Xem báo cáo | Student, Lecturer |
+| PUT | `/api/reports/{id}/feedback` | Nhận xét báo cáo | Lecturer |
+| GET | `/api/councils` | Xem danh sách hội đồng | Lecturer, Admin |
+| POST | `/api/councils` | Tạo hội đồng | Admin |
+| GET | `/api/users` | Xem danh sách người dùng | Admin |
+| POST | `/api/users` | Tạo tài khoản | Admin |
+
+---
+
+## 7. LUỒNG LỰA VỤ CHỦ YẾU (MAIN WORKFLOWS)
+
+### Luồng 1: Chu kỳ Một Đề tài Từ Đầu Đến Cuối
+
+```
+1. Giảng viên Đề xuất Đề tài
+   ↓
+2. Admin Duyệt Đề tài (APPROVED)
+   ↓
+3. Admin Mở Đợt Đăng ký
+   ↓
+4. Sinh viên Xem & Đăng ký Đề tài
+   ↓
+5. Giảng viên Duyệt Danh sách Sinh viên (Chốt nhóm)
+   ↓
+6. Sinh viên Nộp Báo cáo Định kỳ (Hàng tuần/Hàng tháng)
+   ↓
+7. Giảng viên Chấm & Phản hồi Báo cáo
+   ↓
+8. Admin Thành lập Hội đồng Bảo vệ
+   ↓
+9. Sinh viên Bảo vệ trước Hội đồng
+   ↓
+10. Công bố Điểm Cuối cùng (KLTN/NCKH)
+```
+
+---
+
+Lưu ý: Tất cả các sơ đồ được thiết kế để hỗ trợ quá trình quản lý khóa luận/đồ án toàn diện, từ khâu đề xuất đề tài cho đến khi công bố kết quả cuối cùng.
