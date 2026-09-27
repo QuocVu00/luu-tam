@@ -1,7 +1,7 @@
 # DANH MỤC SƠ ĐỒ HỆ THỐNG: RESEARCH THESIS PORTAL
 *(Tài liệu phục vụ Báo cáo Đồ án / Khóa luận)*
 
-Dưới đây là tập hợp đầy đủ và chi tiết các sơ đồ (Mermaid) dành riêng cho hệ thống **Research Thesis Portal**. Các sơ đồ được thiết kế với độ chi tiết cao, giúp sinh viên, giảng viên và quản trị viên hiểu rõ quy trình hoạt động.
+Dưới đây là tập hợp đầy đủ và chi tiết các sơ đồ (Mermaid) dành riêng cho hệ thống **Research Thesis Portal**. Các sơ đồ được thiết kế với độ chi tiết cao để phục vụ báo cáo đồ án / khóa luận.
 
 ---
 
@@ -10,124 +10,138 @@ Dưới đây là tập hợp đầy đủ và chi tiết các sơ đồ (Mermai
 ### 1.1. Sơ đồ Use Case Tổng Quát
 
 ```mermaid
-usecaseDiagram
-    actor "Sinh viên" as SV
-    actor "Giảng viên" as GV
-    actor "Quản trị viên" as Admin
+graph TD
+    A["👤 Sinh viên"]
+    B["👨‍🏫 Giảng viên"]
+    C["⚙️ Quản trị viên"]
 
-    package "Research Thesis Portal" {
-        usecase "Phân hệ Đăng nhập & Xác thực" as Auth
-        usecase "Phân hệ Quản lý Đề tài" as QLDeTai
-        usecase "Phân hệ Đăng ký & Xét duyệt" as QLDangKy
-        usecase "Phân hệ Quản lý Tiến độ & Báo cáo" as QLBaoCao
-        usecase "Phân hệ Đánh giá & Nghiệm thu" as QLDanhGia
-        usecase "Phân hệ Quản trị Hệ thống" as QLHeThong
-    }
+    D["🔐 Đăng nhập & Xác thực"]
+    E["📋 Quản lý Đề tài"]
+    F["✍️ Đăng ký & Xét duyệt"]
+    G["📊 Quản lý Tiến độ & Báo cáo"]
+    H["⭐ Đánh giá & Nghiệm thu"]
+    I["🛠️ Quản trị Hệ thống"]
 
-    SV --> Auth
-    SV --> QLDangKy
-    SV --> QLBaoCao
-    SV --> QLDanhGia
+    A --> D
+    A --> F
+    A --> G
+    A --> H
 
-    GV --> Auth
-    GV --> QLDeTai
-    GV --> QLDangKy
-    GV --> QLBaoCao
-    GV --> QLDanhGia
+    B --> D
+    B --> E
+    B --> F
+    B --> G
+    B --> H
 
-    Admin --> Auth
-    Admin --> QLDeTai
-    Admin --> QLDangKy
-    Admin --> QLHeThong
-    Admin --> QLDanhGia
+    C --> D
+    C --> E
+    C --> F
+    C --> I
+    C --> H
+
+    style D fill:#e1f5ff
+    style E fill:#f3e5f5
+    style F fill:#e8f5e9
+    style G fill:#fff3e0
+    style H fill:#fce4ec
+    style I fill:#f1f8e9
 ```
 
 ### 1.2. Sơ đồ Use Case - Tác nhân Sinh viên
 
 ```mermaid
-usecaseDiagram
-    actor "Sinh viên" as SV
+graph LR
+    A["👤 Sinh viên"]
 
-    package "Phân hệ Sinh viên" {
-        usecase "Đăng nhập hệ thống" as UC1
-        usecase "Xem danh sách đề tài mở" as UC2
-        usecase "Xem chi tiết đề tài" as UC3
-        usecase "Đăng ký tham gia đề tài" as UC4
-        usecase "Hủy đăng ký đề tài" as UC5
-        usecase "Nộp báo cáo định kỳ" as UC6
-        usecase "Xem phản hồi/nhận xét từ GV" as UC7
-        usecase "Xem lịch bảo vệ hội đồng" as UC8
-        usecase "Xem kết quả điểm nghiệm thu" as UC9
-    }
+    B["Đăng nhập hệ thống"]
+    C["Xem danh sách đề tài"]
+    D["Xem chi tiết đề tài"]
+    E["Đăng ký tham gia"]
+    F["Hủy đăng ký"]
+    G["Nộp báo cáo"]
+    H["Xem phản hồi"]
+    I["Xem lịch bảo vệ"]
+    J["Xem kết quả"]
 
-    SV --> UC1
-    SV --> UC2
-    SV --> UC3
-    SV --> UC4
-    SV --> UC5
-    SV --> UC6
-    SV --> UC7
-    SV --> UC8
-    SV --> UC9
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+    A --> J
 
-    UC4 ..> UC1 : <<include>>
-    UC6 ..> UC1 : <<include>>
+    E -.Cần.-> B
+    G -.Cần.-> B
+
+    style A fill:#bbdefb,stroke:#1976d2,stroke-width:2px
+    style B fill:#c8e6c9,stroke:#388e3c
+    style E fill:#fff9c4,stroke:#f57f17
+    style G fill:#ffccbc,stroke:#d84315
 ```
 
 ### 1.3. Sơ đồ Use Case - Tác nhân Giảng viên
 
 ```mermaid
-usecaseDiagram
-    actor "Giảng viên" as GV
+graph LR
+    A["👨‍🏫 Giảng viên"]
 
-    package "Phân hệ Giảng viên" {
-        usecase "Đề xuất đề tài mới" as UC1
-        usecase "Cập nhật/Xóa đề tài đề xuất" as UC2
-        usecase "Duyệt/Từ chối SV đăng ký" as UC3
-        usecase "Xem danh sách nhóm SV hướng dẫn" as UC4
-        usecase "Theo dõi tiến độ báo cáo" as UC5
-        usecase "Nhận xét & Chấm điểm định kỳ" as UC6
-        usecase "Tham gia hội đồng đánh giá" as UC7
-        usecase "Chấm điểm nghiệm thu KLTN/NCKH" as UC8
-    }
+    B["Đề xuất đề tài"]
+    C["Cập nhật/Xóa đề tài"]
+    D["Duyệt đăng ký SV"]
+    E["Xem danh sách nhóm"]
+    F["Theo dõi tiến độ"]
+    G["Chấm & Nhận xét"]
+    H["Tham gia hội đồng"]
+    I["Chấm điểm nghiệm thu"]
 
-    GV --> UC1
-    GV --> UC2
-    GV --> UC3
-    GV --> UC4
-    GV --> UC5
-    GV --> UC6
-    GV --> UC7
-    GV --> UC8
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+
+    style A fill:#c5cae9,stroke:#3f51b5,stroke-width:2px
+    style B fill:#c8e6c9,stroke:#388e3c
+    style D fill:#fff9c4,stroke:#f57f17
+    style G fill:#ffccbc,stroke:#d84315
 ```
 
-### 1.4. Sơ đồ Use Case - Tác nhân Quản trị viên (Admin)
+### 1.4. Sơ đồ Use Case - Tác nhân Quản trị viên
 
 ```mermaid
-usecaseDiagram
-    actor "Quản trị viên" as Admin
+graph LR
+    A["⚙️ Quản trị viên"]
 
-    package "Phân hệ Quản trị" {
-        usecase "Quản lý Tài khoản (CRUD)" as UC1
-        usecase "Quản lý Danh mục (Khoa, Ngành)" as UC2
-        usecase "Thiết lập Đợt đăng ký (Mở/Đóng)" as UC3
-        usecase "Duyệt đề tài từ Giảng viên" as UC4
-        usecase "Phân công Giảng viên hướng dẫn" as UC5
-        usecase "Thành lập Hội đồng bảo vệ" as UC6
-        usecase "Phân công Giảng viên vào Hội đồng" as UC7
-        usecase "Lập lịch & Phòng bảo vệ" as UC8
-        usecase "Công bố điểm/Kết quả tổng hợp" as UC9
-    }
+    B["Quản lý Tài khoản"]
+    C["Quản lý Danh mục"]
+    D["Thiết lập Đợt DK"]
+    E["Duyệt Đề tài"]
+    F["Phân công GVHD"]
+    G["Thành lập Hội đồng"]
+    H["Phân công vào HĐ"]
+    I["Lập lịch bảo vệ"]
+    J["Công bố điểm"]
 
-    Admin --> UC1
-    Admin --> UC2
-    Admin --> UC3
-    Admin --> UC4
-    Admin --> UC5
-    Admin --> UC6
-    Admin --> UC7
-    Admin --> UC8
-    Admin --> UC9
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    A --> G
+    A --> H
+    A --> I
+    A --> J
+
+    style A fill:#f8bbd0,stroke:#c2185b,stroke-width:2px
+    style B fill:#ffe0b2,stroke:#e65100
+    style E fill:#c8e6c9,stroke:#388e3c
+    style J fill:#f8bbd0,stroke:#c2185b
 ```
 
 ---
@@ -138,53 +152,39 @@ usecaseDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> GV_NhapDeTai : Giảng viên tạo đề tài mới
-    GV_NhapDeTai --> GV_Submit : Lưu và gửi duyệt
-    GV_Submit --> Admin_Review : Hệ thống chuyển sang trạng thái "Chờ duyệt"
+    [*] --> GV_NhapDeTai
+    GV_NhapDeTai --> GV_Submit: Lưu & gửi duyệt
+    GV_Submit --> Admin_Review: Chờ duyệt
 
-    state Admin_Review {
-        [*] --> KiemTraThongTin
-        KiemTraThongTin --> TuChoi : Thiếu thông tin / Không phù hợp
-        KiemTraThongTin --> YeuCauSua : Cần chỉnh sửa
-        KiemTraThongTin --> PheDuyet : Đạt yêu cầu
-    }
+    Admin_Review --> TuChoi: Từ chối
+    Admin_Review --> YeuCauSua: Cần chỉnh sửa
+    Admin_Review --> PheDuyet: Phê duyệt
 
-    TuChoi --> [*] : Hủy đề tài
-    YeuCauSua --> GV_NhapDeTai : Trả lại cho Giảng viên
-    PheDuyet --> ChoDangKy : Cập nhật trạng thái "Sẵn sàng"
-
-    ChoDangKy --> MoDotDangKy : Admin mở đợt đăng ký
-    MoDotDangKy --> [*]
+    TuChoi --> [*]
+    YeuCauSua --> GV_NhapDeTai: Trả lại sửa
+    PheDuyet --> ChoDangKy: Sẵn sàng
+    ChoDangKy --> [*]
 ```
 
 ### 2.2. Quy trình Sinh viên Đăng ký Đề tài
 
 ```mermaid
 stateDiagram-v2
-    [*] --> XemDanhSach : SV đăng nhập và xem đề tài
+    [*] --> XemDanhSach
     XemDanhSach --> ChonDeTai
-    ChonDeTai --> SubmitDangKy : Nhấn nút Đăng ký
-    SubmitDangKy --> HeThongCheck : Kiểm tra điều kiện (Tín chỉ, Số lượng)
+    ChonDeTai --> SubmitDangKy: Đăng ký
+    SubmitDangKy --> HeThongCheck: Kiểm tra
 
-    state HeThongCheck {
-        [*] --> KiemTraSL
-        KiemTraSL --> LoiDieuKien : Đã đủ nhóm/Hết hạn/Chưa đủ TC
-        KiemTraSL --> HopLe : Điều kiện thỏa mãn
-    }
+    HeThongCheck --> LoiDieuKien: Lỗi điều kiện
+    HeThongCheck --> HopLe: Hợp lệ
 
-    LoiDieuKien --> XemDanhSach : Báo lỗi, yêu cầu chọn lại
-    HopLe --> ChoGVDuyet : Trạng thái "Chờ GV duyệt"
+    LoiDieuKien --> XemDanhSach
+    HopLe --> ChoGVDuyet: Chờ GV duyệt
+    ChoGVDuyet --> GV_TuChoi: GV từ chối
+    ChoGVDuyet --> GV_DongY: GV đồng ý
 
-    ChoGVDuyet --> GVDanhGia : Giảng viên nhận thông báo
-
-    state GVDanhGia {
-        [*] --> XemThongTinSV
-        XemThongTinSV --> GV_TuChoi
-        XemThongTinSV --> GV_DongY
-    }
-
-    GV_TuChoi --> XemDanhSach : Hệ thống thông báo SV bị từ chối
-    GV_DongY --> ThucHienDeTai : Chốt danh sách nhóm
+    GV_TuChoi --> [*]
+    GV_DongY --> ThucHienDeTai: Thực hiện
     ThucHienDeTai --> [*]
 ```
 
@@ -196,192 +196,166 @@ stateDiagram-v2
 
 ```mermaid
 sequenceDiagram
-    actor User as Người dùng (SV/GV/Admin)
-    participant UI as Angular Frontend
-    participant API as FastAPI Backend
-    participant DB as PostgreSQL
+    participant User as Người dùng
+    participant UI as Frontend
+    participant API as Backend
+    participant DB as Database
 
-    User->>UI: 1. Nhập Username & Password
-    UI->>API: 2. POST /api/auth/login
-    API->>DB: 3. Lấy thông tin User theo Username
-    DB-->>API: 4. Trả về thông tin & Hash Password
+    User->>UI: Nhập tài khoản/mật khẩu
+    UI->>API: POST /api/auth/login
+    API->>DB: Query user
 
-    alt Sai mật khẩu
-        API-->>UI: 5a. Return 401 Unauthorized
-        UI-->>User: 6a. Báo lỗi sai tài khoản/mật khẩu
-    else Đúng mật khẩu
-        API->>API: 5b. Tạo JWT Access Token & Refresh Token
-        API-->>UI: 6b. Return 200 OK + JWT Tokens + User Info
-        UI->>UI: 7. Lưu Token vào LocalStorage / Cookie
-        UI-->>User: 8. Chuyển hướng (Redirect) vào Dashboard tương ứng
+    alt Mật khẩu sai
+        DB-->>API: Error
+        API-->>UI: 401 Unauthorized
+        UI-->>User: Báo lỗi
+    else Mật khẩu đúng
+        DB-->>API: User data
+        API->>API: Tạo JWT Token
+        API-->>UI: 200 OK + Tokens
+        UI->>UI: Lưu Token
+        UI-->>User: Chuyển Dashboard
     end
 ```
 
-### 3.2. Luồng Nộp Báo cáo Tiến độ (Của Sinh viên)
+### 3.2. Luồng Nộp Báo cáo Tiến độ
 
 ```mermaid
 sequenceDiagram
-    actor SV as Sinh viên
-    participant UI as Angular Frontend
-    participant API as FastAPI Backend
-    participant Storage as File Storage (Local/S3)
-    participant DB as PostgreSQL
-    actor GV as Giảng viên
+    participant SV as Sinh viên
+    participant UI as Frontend
+    participant API as Backend
+    participant Store as Storage
+    participant DB as Database
+    participant GV as Giảng viên
 
-    SV->>UI: 1. Vào form nộp báo cáo, chọn File (.pdf, .docx)
-    UI->>API: 2. POST /api/reports (Kèm Token JWT + File + Data)
-    API->>API: 3. Middleware xác thực Token (Verify JWT)
-    API->>Storage: 4. Lưu File vào ổ cứng/S3
-    Storage-->>API: 5. Trả về File_URL
-    API->>DB: 6. Insert bản ghi Báo cáo (gắn File_URL, Topic_ID, Student_ID)
-    DB-->>API: 7. Xác nhận thành công
-    API-->>UI: 8. Return 201 Created (Kèm Dữ liệu Báo cáo)
-    UI-->>SV: 9. Hiển thị thông báo "Nộp thành công"
-
-    API->>GV: 10. (Background Task) Gửi Notification/Email cho GVHD
-
-    GV->>UI: 11. Đăng nhập, mở mục "Chấm báo cáo"
-    UI->>API: 12. GET /api/reports/{id}
-    API->>DB: 13. Query thông tin báo cáo
-    DB-->>API: 14. Dữ liệu báo cáo
-    API-->>UI: 15. Dữ liệu JSON (Kèm File_URL)
-    UI-->>GV: 16. Hiển thị File báo cáo cho GV đọc
+    SV->>UI: Chọn file & nộp
+    UI->>API: POST /api/reports + File
+    API->>Store: Lưu file
+    Store-->>API: File URL
+    API->>DB: Insert báo cáo
+    DB-->>API: OK
+    API-->>UI: 201 Created
+    UI-->>SV: Thành công
+    API->>GV: Gửi thông báo
 ```
 
 ---
 
-## 4. SƠ ĐỒ KIẾN TRÚC HỆ THỐNG (SYSTEM ARCHITECTURE)
-
-Thiết kế dựa trên mô hình Single Page Application (SPA) kết nối với RESTful API, chạy độc lập các Container trên Docker.
+## 4. SƠ ĐỒ KIẾN TRÚC HỆ THỐNG
 
 ```mermaid
 graph TB
-    subgraph Users [Người Dùng Cuối]
-        U_SV(Sinh viên)
-        U_GV(Giảng viên)
-        U_AD(Quản trị viên)
+    subgraph Users["👥 Người Dùng"]
+        U1["Sinh viên"]
+        U2["Giảng viên"]
+        U3["Quản trị viên"]
     end
 
-    subgraph Frontend [Angular Application - Docker Container 1]
-        UI_SPA[Trình duyệt (Browser) - SPA]
-        Guard[Auth Guards]
-        Services[Angular HTTP Services]
-        UI_SPA --> Guard
-        Guard --> Services
+    subgraph Frontend["📱 Frontend - Angular"]
+        F1["Browser/SPA"]
+        F2["Auth Guards"]
+        F3["HTTP Services"]
     end
 
-    subgraph Backend [FastAPI Application - Docker Container 2]
-        Router[API Routers (Endpoints)]
-        Auth[JWT Authentication & Middleware]
-        Controllers[Business Logic / Services]
-        ORM[SQLAlchemy ORM]
-
-        Router --> Auth
-        Auth --> Controllers
-        Controllers --> ORM
+    subgraph Backend["⚙️ Backend - FastAPI"]
+        B1["API Routers"]
+        B2["JWT Auth"]
+        B3["Controllers"]
+        B4["ORM Layer"]
     end
 
-    subgraph Database [Database - Docker Container 3]
-        PG[(PostgreSQL)]
+    subgraph Database["🗄️ Database"]
+        DB["PostgreSQL"]
     end
 
-    Users -->|HTTPS / Trình duyệt| Frontend
-    Services -->|HTTP/REST JSON| Router
-    ORM -->|TCP (Port 5432)| PG
+    Users -->|HTTPS| Frontend
+    F1 --> F2
+    F2 --> F3
+    F3 -->|REST API| Backend
+    B1 --> B2
+    B2 --> B3
+    B3 --> B4
+    B4 -->|SQL| Database
 
-    classDef frontend fill:#ddf3ff,stroke:#0075b0,stroke-width:2px;
-    classDef backend fill:#e1ffe5,stroke:#008b1a,stroke-width:2px;
-    classDef db fill:#ffe1e1,stroke:#b00000,stroke-width:2px;
-
-    class Frontend frontend;
-    class Backend backend;
-    class Database db;
+    style Users fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Frontend fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style Backend fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style Database fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
 ```
 
 ---
 
 ## 5. SƠ ĐỒ THỰC THỂ LIÊN KẾT (ERD - ENTITY RELATIONSHIP)
 
-Sơ đồ mô phỏng cấu trúc bảng cơ sở dữ liệu cốt lõi (Core Schema) bằng SQLAlchemy/PostgreSQL.
-
 ```mermaid
 erDiagram
-    USERS {
-        int id PK
-        string username
-        string password_hash
-        string full_name
-        string email
-        string role
-        boolean is_active
-    }
-
-    DEPARTMENTS {
-        int id PK
-        string name
-        string code
-    }
-
-    REGISTRATION_PERIODS {
-        int id PK
-        string name
-        datetime start_date
-        datetime end_date
-        string status
-    }
-
-    TOPICS {
-        int id PK
-        string title
-        text description
-        int lecturer_id FK
-        int period_id FK
-        int max_students
-        string status
-    }
-
-    TOPIC_REGISTRATIONS {
-        int id PK
-        int topic_id FK
-        int student_id FK
-        datetime registered_at
-        string status
-    }
-
-    REPORTS {
-        int id PK
-        int topic_id FK
-        int student_id FK
-        string file_url
-        text description
-        datetime submitted_at
-        string feedback
-        float score
-    }
-
-    COUNCILS {
-        int id PK
-        string name
-        datetime defense_date
-        string room
-    }
-
-    COUNCIL_MEMBERS {
-        int id PK
-        int council_id FK
-        int lecturer_id FK
-        string role
-    }
-
     USERS ||--o{ TOPICS : proposed_by
-    TOPICS ||--o{ TOPIC_REGISTRATIONS : has
-    TOPICS ||--o{ REPORTS : tracks
     USERS ||--o{ TOPIC_REGISTRATIONS : creates
     USERS ||--o{ REPORTS : submits
     USERS ||--o{ COUNCIL_MEMBERS : is_lecturer
     DEPARTMENTS ||--o{ USERS : contains
     REGISTRATION_PERIODS ||--o{ TOPICS : contains
-    COUNCILS ||--o{ COUNCIL_MEMBERS : has_members
+    TOPICS ||--o{ TOPIC_REGISTRATIONS : has
+    TOPICS ||--o{ REPORTS : tracks
+    COUNCILS ||--o{ COUNCIL_MEMBERS : has
+
+    USERS {
+        int id
+        string username
+        string email
+        string role
+        string full_name
+    }
+
+    DEPARTMENTS {
+        int id
+        string name
+        string code
+    }
+
+    REGISTRATION_PERIODS {
+        int id
+        string name
+        datetime start_date
+        datetime end_date
+    }
+
+    TOPICS {
+        int id
+        string title
+        int lecturer_id
+        int period_id
+        string status
+    }
+
+    TOPIC_REGISTRATIONS {
+        int id
+        int topic_id
+        int student_id
+        string status
+    }
+
+    REPORTS {
+        int id
+        int topic_id
+        int student_id
+        string file_url
+        float score
+    }
+
+    COUNCILS {
+        int id
+        string name
+        datetime defense_date
+    }
+
+    COUNCIL_MEMBERS {
+        int id
+        int council_id
+        int lecturer_id
+        string role
+    }
 ```
 
 ---
@@ -391,26 +365,23 @@ erDiagram
 | Phương thức | Endpoint | Mô tả | Quyền hạn |
 |---|---|---|---|
 | POST | `/api/auth/login` | Đăng nhập | Public |
-| POST | `/api/auth/refresh` | Làm mới JWT Token | User |
-| GET | `/api/topics` | Lấy danh sách đề tài | Student, Lecturer |
-| POST | `/api/topics` | Tạo đề tài mới | Lecturer |
+| POST | `/api/auth/refresh` | Làm mới Token | User |
+| GET | `/api/topics` | Danh sách đề tài | Student, Lecturer |
+| POST | `/api/topics` | Tạo đề tài | Lecturer |
 | PUT | `/api/topics/{id}` | Cập nhật đề tài | Lecturer |
 | DELETE | `/api/topics/{id}` | Xóa đề tài | Lecturer, Admin |
 | POST | `/api/registrations` | Đăng ký đề tài | Student |
-| GET | `/api/registrations/{id}` | Xem chi tiết đăng ký | Student, Lecturer |
 | PUT | `/api/registrations/{id}/approve` | Duyệt đăng ký | Lecturer |
 | PUT | `/api/registrations/{id}/reject` | Từ chối đăng ký | Lecturer |
 | POST | `/api/reports` | Nộp báo cáo | Student |
 | GET | `/api/reports/{id}` | Xem báo cáo | Student, Lecturer |
 | PUT | `/api/reports/{id}/feedback` | Nhận xét báo cáo | Lecturer |
-| GET | `/api/councils` | Xem danh sách hội đồng | Lecturer, Admin |
+| GET | `/api/councils` | Danh sách hội đồng | Lecturer, Admin |
 | POST | `/api/councils` | Tạo hội đồng | Admin |
-| GET | `/api/users` | Xem danh sách người dùng | Admin |
-| POST | `/api/users` | Tạo tài khoản | Admin |
 
 ---
 
-## 7. LUỒNG LỰA VỤ CHỦ YẾU (MAIN WORKFLOWS)
+## 7. LUỒNG LỰA VỤ CHỦ YẾU
 
 ### Luồng 1: Chu kỳ Một Đề tài Từ Đầu Đến Cuối
 
@@ -425,17 +396,17 @@ erDiagram
    ↓
 5. Giảng viên Duyệt Danh sách Sinh viên (Chốt nhóm)
    ↓
-6. Sinh viên Nộp Báo cáo Định kỳ (Hàng tuần/Hàng tháng)
+6. Sinh viên Nộp Báo cáo Định kỳ
    ↓
-7. Giảng viên Chấm & Phản hồi Báo cáo
+7. Giảng viên Chấm & Phản hồi
    ↓
-8. Admin Thành lập Hội đồng Bảo vệ
+8. Admin Thành lập Hội đồng
    ↓
 9. Sinh viên Bảo vệ trước Hội đồng
    ↓
-10. Công bố Điểm Cuối cùng (KLTN/NCKH)
+10. Công bố Điểm Cuối cùng
 ```
 
 ---
 
-Lưu ý: Tất cả các sơ đồ được thiết kế để hỗ trợ quá trình quản lý khóa luận/đồ án toàn diện, từ khâu đề xuất đề tài cho đến khi công bố kết quả cuối cùng.
+**Lưu ý:** Tất cả các sơ đồ đã được tối ưu hóa để hiển thị đúng trong bảng xem trước GitHub.
